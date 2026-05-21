@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+
+kind: Job
+
+metadata:
+  name: qe-control-plane-job
+
+spec:
+  template:
+    metadata:
+      labels:
+        app: qe-control-plane
+    spec:
+      containers:
+        - name: qe-control-plane
+          image: qe-control-plane:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ENV
+              value: dev
+          volumeMounts:
+            - name: artifacts-volume
+              mountPath: /app/artifacts
+          command:
+            - /bin/sh
+            - -c
+            - |
+              python -m scripts.execution.run_tests
+              tail -f /dev/null
+
+      restartPolicy: Never
+      volumes:
+        - name: artifacts-volume
+          hostPath:
+            path: /Volumes/ExtremeSSD/work/qe-control-plane/artifacts
+  backoffLimit: 0

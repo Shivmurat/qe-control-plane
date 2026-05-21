@@ -1,0 +1,67 @@
+# =========================
+# Python
+# =========================
+
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+.venv/
+venv/
+
+.pytest_cache/
+
+# =========================
+# IDE
+# =========================
+
+.idea/
+.vscode/
+Makefile
+
+# =========================
+# OS Files
+# =========================
+
+.DS_Store
+
+# =========================
+# Runtime Artifacts
+# =========================
+allure-report/
+artifacts/runs/
+
+artifacts/allure-results/
+artifacts/allure-report/
+
+artifacts/logs/
+artifacts/junit/
+artifacts/metrics/
+
+# =========================
+# Coverage
+# =========================
+
+.coverage
+htmlcov/
+
+# =========================
+# Environment Files
+# =========================
+
+.env
+
+# =========================
+# Terraform
+# =========================
+
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# =========================
+# Ansible
+# =========================
+
+*.retry

@@ -1,0 +1,18 @@
+environment: dev
+
+base_url: "https://reqres.in"
+
+timeout: 30
+
+retry_count: 3
+
+parallel_workers: 2
+
+log_level: "INFO"
+
+auth:
+  enabled: false
+  token: ""
+  auth_type: "Bearer"
+
+

@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+
+  qe-control-plane:
+
+    image: qe-control-plane
+
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+
+    container_name: qe-control-plane
+
+    volumes:
+      - ../artifacts:/app/artifacts
+
+    environment:
+      - ENV=dev
+
+    command: python -m scripts.execution.run_tests

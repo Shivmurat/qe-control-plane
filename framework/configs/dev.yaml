@@ -1,0 +1,21 @@
+environment: dev
+
+base_url: "https://reqres.in"
+
+timeout: 30
+
+retry_count: 3
+
+parallel_workers: 2
+
+log_level: "INFO"
+
+auth:
+
+  enabled: true
+
+  type: api_key
+
+  api_key: "reqres_03168176274f4e578aed2ddb5e2593bf"
+
+  api_key_header: "x-api-key"

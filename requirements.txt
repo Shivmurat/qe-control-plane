@@ -1,0 +1,12 @@
+pytest
+requests
+pytest-xdist
+allure-pytest
+pydantic
+pyyaml
+tenacity
+python-dotenv
+jsonschema
+prometheus-client
+kubernetes
+loguru

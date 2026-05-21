@@ -4,10 +4,48 @@ pipeline {
 
     environment {
 
-        RUN_ID = ""
+        PYTHON_ENV = 'venv'
+
+        RUN_ID = ''
     }
 
     stages {
+
+        stage('Checkout Source Code') {
+
+            steps {
+
+                checkout scm
+            }
+        }
+
+        stage('Verify Tooling') {
+
+            steps {
+
+                sh 'python3 --version'
+
+                sh 'docker --version'
+
+                sh 'kubectl version --client'
+            }
+        }
+
+        stage('Create Virtual Environment') {
+
+            steps {
+
+                sh 'python3 -m venv ${PYTHON_ENV}'
+            }
+        }
+
+        stage('Install Dependencies') {
+
+            steps {
+
+                sh '. ${PYTHON_ENV}/bin/activate && pip install -r requirements.txt'
+            }
+        }
 
         stage('Build Docker Image') {
 
@@ -24,9 +62,10 @@ pipeline {
                 script {
 
                     def execution_output = sh(
-                        script: 'python -m scripts.execution.k8s_execution',
+                        script: '. ${PYTHON_ENV}/bin/activate && python -m scripts.execution.k8s_execution',
                         returnStdout: true
                     ).trim()
+
 
                     echo execution_output
 
@@ -45,11 +84,26 @@ pipeline {
             }
         }
 
-        stage('Archive Artifacts') {
+        stage('Archive Runtime Artifacts') {
 
             steps {
 
-                archiveArtifacts artifacts: "artifacts/runs/${env.RUN_ID}/**/*"
+                archiveArtifacts(
+                    artifacts: "artifacts/runs/${env.RUN_ID}/**/*",
+                    fingerprint: true
+                )
+            }
+        }
+
+        stage('Publish Allure Report') {
+
+            steps {
+
+                allure(
+                    includeProperties: false,
+                    jdk: '',
+                    results: [[path: "artifacts/runs/${env.RUN_ID}/allure-results"]]
+                )
             }
         }
     }
@@ -59,6 +113,18 @@ pipeline {
         always {
 
             junit "artifacts/runs/${env.RUN_ID}/junit/results.xml"
+
+            cleanWs()
+        }
+
+        success {
+
+            echo 'QE Control Plane pipeline executed successfully'
+        }
+
+        failure {
+
+            echo 'QE Control Plane pipeline execution failed'
         }
     }
 }

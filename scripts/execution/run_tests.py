@@ -25,7 +25,7 @@ allure_report_dir = ExecutionContext.get_allure_report_dir()
 
 
 junit_report_path = (
-    ExecutionContext.get_run_root_dir()
+    ExecutionContext.get_run_root()
     / "junit"
     / "results.xml"
 )

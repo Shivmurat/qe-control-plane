@@ -14,19 +14,20 @@ class ExecutionContext:
 
     _project_root = Path(__file__).resolve().parents[3]
 
-    _run_root = _project_root / "artifacts" / "runs" / _run_id
+  #  _run_root = _project_root / "artifacts" / "runs" / _run_id
 
     _test_results = []
 
     @classmethod
     def get_run_id(cls):
-        return cls._run_id
+        return os.getenv("RUN_ID", cls._run_id)
 
     @classmethod
     def get_run_root(cls):
-        cls._run_root.mkdir(parents=True, exist_ok=True)
-        print(f"printing run root dir: {cls._run_root}")
-        return cls._run_root
+        _run_root = cls._project_root / "artifacts" / "runs" / cls._run_id
+        _run_root.mkdir(parents=True, exist_ok=True)
+        print(f"printing run root dir: {_run_root}")
+        return _run_root
 
     @classmethod
     def get_allure_results_dir(cls):

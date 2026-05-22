@@ -11,10 +11,7 @@ config = ConfigLoader.load_config()
 parallel_workers = config.get("parallel_workers", 1)
 
 
-run_id = os.getenv(
-    "BUILD_TAG",
-    datetime.now().strftime("%Y%m%d_%H%M%S")
-)
+run_id = ExecutionContext.get_run_id()
 
 os.environ["RUN_ID"] = run_id
 

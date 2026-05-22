@@ -1,5 +1,14 @@
 import subprocess
 
+subprocess.run(
+    [
+        "kubectl",
+        "delete",
+        "job",
+        "qe-control-plane-job",
+        "--ignore-not-found"
+    ]
+)
 
 subprocess.run(
     [

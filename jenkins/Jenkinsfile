@@ -103,6 +103,7 @@ pipeline {
             }
         }
 
+        /*
         stage('Publish JUnit Report') {
 
                 steps {
@@ -110,10 +111,10 @@ pipeline {
                      sh "ls -R artifacts/runs/${RUN_ID}/junit || true"
 
                      junit "artifacts/runs/${RUN_ID}/junit/results.xml"
-        }
-}
+                }
+            }
 
-    }
+        } */
 
     post {
 

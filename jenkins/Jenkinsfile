@@ -1,3 +1,5 @@
+def RUN_ID = ""
+
 pipeline {
 
     agent any
@@ -5,8 +7,6 @@ pipeline {
     environment {
 
         PYTHON_ENV = 'venv'
-
-        RUN_ID = ''
     }
 
     stages {
@@ -57,23 +57,27 @@ pipeline {
 
         stage('Execute Kubernetes Job') {
 
-                 steps {
+            steps {
 
-                     script {
+                script {
 
-                            def execution_output = sh(
-                            script: '. ${PYTHON_ENV}/bin/activate && python -m scripts.execution.k8s_execution',
-                            returnStdout: true
-                     ).trim()
+                    sh """
+                        export BUILD_TAG=${BUILD_TAG}
+                        . ${PYTHON_ENV}/bin/activate
+                        python -m scripts.execution.k8s_execution
+                    """
 
-                    echo execution_output
 
                     def runId = readFile(file: 'run_id.txt').trim()
+
                     echo "Read RUN_ID from file: ${runId}"
-                    env.RUN_ID = "${runId}"
-                    echo "Captured RUN_ID: ${env.RUN_ID}"
+
+
+                    RUN_ID = runId
+
+                    echo "Captured RUN_ID: ${RUN_ID}"
                 }
-             }
+            }
         }
 
         stage('Archive Runtime Artifacts') {
@@ -81,7 +85,7 @@ pipeline {
             steps {
 
                 archiveArtifacts(
-                    artifacts: "artifacts/runs/${env.RUN_ID}/**/*",
+                    artifacts: "artifacts/runs/${RUN_ID}/**/*",
                     fingerprint: true
                 )
             }
@@ -94,7 +98,7 @@ pipeline {
                 allure(
                     includeProperties: false,
                     jdk: '',
-                    results: [[path: "artifacts/runs/${env.RUN_ID}/allure-results"]]
+                    results: [[path: "artifacts/runs/${RUN_ID}/allure-results"]]
                 )
             }
         }
@@ -104,7 +108,7 @@ pipeline {
 
         always {
 
-            junit "artifacts/runs/${env.RUN_ID}/junit/results.xml"
+            junit "artifacts/runs/${RUN_ID}/junit/results.xml"
 
             cleanWs()
         }

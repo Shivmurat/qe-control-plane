@@ -112,9 +112,9 @@ pipeline {
 
                      junit "artifacts/runs/${RUN_ID}/junit/results.xml"
                 }
-            }
+            } */
 
-        } */
+    }
 
     post {
 

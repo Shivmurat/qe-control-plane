@@ -70,7 +70,7 @@ pipeline {
 
                     def runId = readFile(file: 'run_id.txt').trim()
                     echo "Read RUN_ID from file: ${runId}"
-                    env.RUN_ID = runId
+                    env.RUN_ID = "${runId}"
                     echo "Captured RUN_ID: ${env.RUN_ID}"
                 }
              }

@@ -57,31 +57,27 @@ pipeline {
 
         stage('Execute Kubernetes Job') {
 
-            steps {
+                 steps {
 
-                script {
+                     script {
 
-                    def execution_output = sh(
-                        script: '. ${PYTHON_ENV}/bin/activate && python -m scripts.execution.k8s_execution',
-                        returnStdout: true
-                    ).trim()
+                            def execution_output = sh(
+                            script: '. ${PYTHON_ENV}/bin/activate && python -m scripts.execution.k8s_execution',
+                            returnStdout: true
+                     ).trim()
 
 
                     echo execution_output
 
 
-                    env.RUN_ID = sh(
-                        script: """
-                            echo "${execution_output}" | \
-                            grep RUN_ID | tail -1 | cut -d '=' -f2
-                        """,
-                        returnStdout: true
-                    ).trim()
-
-
-                    echo "Captured RUN_ID: ${env.RUN_ID}"
+                    env.RUN_ID = execution_output
+                    .split("\\n")
+                    .find { it.startsWith("RUN_ID=") }
+                    .split("=")[1]
+                    .trim()
+                echo "Captured RUN_ID: ${env.RUN_ID}"
                 }
-            }
+             }
         }
 
         stage('Archive Runtime Artifacts') {

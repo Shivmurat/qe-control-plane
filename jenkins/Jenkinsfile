@@ -68,8 +68,10 @@ pipeline {
 
                     echo execution_output
 
-                    env.RUN_ID = readFile('run_id.txt').trim()
-                   echo "Captured RUN_ID: ${env.RUN_ID}"
+                    def runId = readFile(file: 'run_id.txt').trim()
+                    echo "Read RUN_ID from file: ${runId}"
+                    env.RUN_ID = runId
+                    echo "Captured RUN_ID: ${env.RUN_ID}"
                 }
              }
         }

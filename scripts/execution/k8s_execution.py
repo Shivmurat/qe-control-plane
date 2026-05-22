@@ -57,3 +57,6 @@ run_id = subprocess.check_output(
 ).strip()
 
 print(f"RUN_ID={run_id}")
+
+with open("run_id.txt", "w") as file:
+    file.write(run_id)

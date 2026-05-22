@@ -68,13 +68,8 @@ pipeline {
 
                     echo execution_output
 
-                    env.RUN_ID = sh(
-                        script: """
-                               echo '${execution_output}' | grep RUN_ID | tail -1 | sed 's/RUN_ID=//'
-                        """,
-                        returnStdout: true
-                    ).trim()
-                echo "Captured RUN_ID: ${env.RUN_ID}"
+                    env.RUN_ID = readFile('run_id.txt').trim()
+                   echo "Captured RUN_ID: ${env.RUN_ID}"
                 }
              }
         }

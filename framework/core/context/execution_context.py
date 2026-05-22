@@ -24,7 +24,7 @@ class ExecutionContext:
 
     @classmethod
     def get_run_root(cls):
-        _run_root = cls._project_root / "artifacts" / "runs" / cls._run_id
+        _run_root = cls._project_root / "artifacts" / "runs" / cls.get_run_id()
         _run_root.mkdir(parents=True, exist_ok=True)
         print(f"printing run root dir: {_run_root}")
         return _run_root

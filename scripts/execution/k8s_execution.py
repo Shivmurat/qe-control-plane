@@ -42,3 +42,18 @@ subprocess.run(
     ],
     check=True
 )
+
+run_id = subprocess.check_output(
+    [
+        "kubectl",
+        "exec",
+        pod_name,
+        "--",
+        "sh",
+        "-c",
+        "ls /app/artifacts/runs | tail -n 1"
+    ],
+    text=True
+).strip()
+
+print(f"RUN_ID={run_id}")

@@ -1,5 +1,5 @@
-import subprocess
 import os
+import subprocess
 from datetime import datetime
 
 from framework.core.context.execution_context import ExecutionContext
@@ -10,13 +10,32 @@ config = ConfigLoader.load_config()
 
 parallel_workers = config.get("parallel_workers", 1)
 
+
+run_id = os.getenv(
+    "BUILD_TAG",
+    datetime.now().strftime("%Y%m%d_%H%M%S")
+)
+
+os.environ["RUN_ID"] = run_id
+
+
 allure_results_dir = ExecutionContext.get_allure_results_dir()
 
 allure_report_dir = ExecutionContext.get_allure_report_dir()
 
-run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-os.environ["RUN_ID"] = run_id
+junit_report_path = (
+    ExecutionContext.get_run_root_dir()
+    / "junit"
+    / "results.xml"
+)
+
+
+junit_report_path.parent.mkdir(
+    parents=True,
+    exist_ok=True
+)
+
 
 pytest_command = [
     "pytest",
@@ -24,7 +43,8 @@ pytest_command = [
     "-v",
     "-n",
     str(parallel_workers),
-    f"--alluredir={allure_results_dir}"
+    f"--alluredir={allure_results_dir}",
+    f"--junitxml={junit_report_path}"
 ]
 
 

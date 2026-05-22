@@ -66,15 +66,14 @@ pipeline {
                             returnStdout: true
                      ).trim()
 
-
                     echo execution_output
 
-
-                    env.RUN_ID = execution_output
-                    .split("\\n")
-                    .find { it.startsWith("RUN_ID=") }
-                    .split("=")[1]
-                    .trim()
+                    env.RUN_ID = sh(
+                        script: """
+                               echo '${execution_output}' | grep RUN_ID | tail -1 | sed 's/RUN_ID=//'
+                        """,
+                        returnStdout: true
+                    ).trim()
                 echo "Captured RUN_ID: ${env.RUN_ID}"
                 }
              }

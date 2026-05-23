@@ -1,5 +1,6 @@
 import subprocess
 import os
+import time
 
 namespace = os.getenv("NAMESPACE","default")
 
@@ -26,16 +27,31 @@ subprocess.run(
 )
 
 
-pod_name = subprocess.check_output(
-    [
-        "kubectl",
-        "get",
-        "pods",
-        "--selector=job-name=qe-control-plane-job",
-        "--output=jsonpath={.items[0].metadata.name}"
-    ],
-    text=True
-).strip()
+pod_name = None
+for _ in range(30):
+    try:
+        pod_name = subprocess.check_output(
+            [
+                "kubectl",
+                "get",
+                "pods",
+                "-n",
+                namespace,
+                "--selector=job-name=qe-control-plane-job",
+                "--output=jsonpath={.items[0].metadata.name}"
+            ],
+            text=True
+        ).strip()
+        if pod_name:
+            break
+    except subprocess.CalledProcessError:
+        pass
+    time.sleep(2)
+
+
+if not pod_name:
+
+    raise Exception("Pod was not created in expected time")
 
 
 subprocess.run(

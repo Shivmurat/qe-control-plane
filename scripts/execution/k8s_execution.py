@@ -10,6 +10,8 @@ subprocess.run(
         "delete",
         "job",
         "qe-control-plane-job",
+        "-n",
+        namespace,
         "--ignore-not-found"
     ]
 )
@@ -58,6 +60,8 @@ subprocess.run(
     [
         "kubectl",
         "wait",
+        "-n",
+        namespace,
         "--for=condition=Ready",
         f"pod/{pod_name}",
         "--timeout=120s"
@@ -68,7 +72,9 @@ subprocess.run(
 
 subprocess.run(
     [
-        "./scripts/k8s/copy_k8s_artifacts.sh"
+        "./scripts/k8s/copy_k8s_artifacts.sh",
+        namespace,
+        pod_name
     ],
     check=True
 )
@@ -77,6 +83,8 @@ run_id = subprocess.check_output(
     [
         "kubectl",
         "exec",
+        "-n",
+        "namespace",
         pod_name,
         "--",
         "sh",

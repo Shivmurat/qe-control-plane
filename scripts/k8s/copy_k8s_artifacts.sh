@@ -1,18 +1,29 @@
 #!/bin/bash
 
+NAMESPACE=$1
+POD_NAME=$2
+
 set -e
 
 
-POD_NAME=$(kubectl get pods \
-  --selector=job-name=qe-control-plane-job \
-  --output=jsonpath="{.items[0].metadata.name}")
+if [ -z "$NAMESPACE" ] || [ -z "$POD_NAME" ]; then
+
+    echo "Namespace or pod name missing"
+
+    exit 1
+fi
 
 
-echo "Found pod: ${POD_NAME}"
+echo "Using namespace: ${NAMESPACE}"
+
+echo "Using pod: ${POD_NAME}"
 
 
-RUN_ID=$(kubectl exec ${POD_NAME} -- \
-  ls /app/artifacts/runs | tail -n 1)
+RUN_ID=$(kubectl exec \
+  -n ${NAMESPACE} \
+  ${POD_NAME} \
+  -- \
+  sh -c "ls /app/artifacts/runs | tail -n 1")
 
 
 echo "Found run id: ${RUN_ID}"
@@ -22,7 +33,7 @@ mkdir -p artifacts/runs
 
 
 kubectl cp \
-  ${POD_NAME}:/app/artifacts/runs/${RUN_ID} \
+  ${NAMESPACE}/${POD_NAME}:/app/artifacts/runs/${RUN_ID} \
   artifacts/runs/${RUN_ID}
 
 

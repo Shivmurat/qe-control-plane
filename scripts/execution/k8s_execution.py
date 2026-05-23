@@ -84,7 +84,7 @@ run_id = subprocess.check_output(
         "kubectl",
         "exec",
         "-n",
-        "namespace",
+        namespace,
         pod_name,
         "--",
         "sh",

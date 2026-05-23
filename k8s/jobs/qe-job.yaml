@@ -4,6 +4,7 @@ kind: Job
 
 metadata:
   name: qe-control-plane-job
+#  namespace: qe-dev
 
 spec:
   template:

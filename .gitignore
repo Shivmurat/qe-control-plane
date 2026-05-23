@@ -65,3 +65,6 @@ htmlcov/
 # =========================
 
 *.retry
+
+#Jenkins Data
+run_id.txt

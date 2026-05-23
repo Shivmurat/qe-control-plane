@@ -7,6 +7,8 @@ pipeline {
     environment {
 
         PYTHON_ENV = 'venv'
+        RUN_ID = ''
+        NAMESPACE = "qe-run-${BUILD_NUMBER}"
     }
 
     stages {
@@ -54,6 +56,26 @@ pipeline {
                 sh 'docker build -t qe-control-plane:latest -f docker/Dockerfile .'
             }
         }
+
+
+        stage('Provision Namespace') {
+
+              steps {
+
+                  sh """
+
+                  cd infrastructure/terraform/environments/dev
+
+                  terraform init
+
+                   terraform apply \
+                    -auto-approve \
+                   -var="namespace=${NAMESPACE}"
+
+                   """
+              }
+        }
+
 
         stage('Execute Kubernetes Job') {
 

@@ -1,10 +1,12 @@
 import os
 import subprocess
-from datetime import datetime
+import time
+import pytest
 
 from framework.core.context.execution_context import ExecutionContext
 from framework.utils.config_loader import ConfigLoader
-
+from framework.observability.metrics import start_metrics_server
+from framework.observability.metrics import active_executions
 
 config = ConfigLoader.load_config()
 
@@ -38,14 +40,21 @@ pytest_command = [
     "pytest",
     "tests/smoke",
     "-v",
-    "-n",
-    str(parallel_workers),
+ #   "-n",
+ #   str(parallel_workers),
     f"--alluredir={allure_results_dir}",
     f"--junitxml={junit_report_path}"
 ]
 
+start_metrics_server()
+print("Metrics server started on port 8000")
 
-pytest_result = subprocess.run(pytest_command)
+active_executions.inc()
+
+#pytest_result = subprocess.run(pytest_command)
+pytest_result = pytest.main(pytest_command[1:])
+
+active_executions.dec()
 
 
 allure_command = [
@@ -63,5 +72,5 @@ subprocess.run(allure_command)
 
 print(f"\nAllure report generated at: {allure_report_dir}")
 
-
-exit(pytest_result.returncode)
+time.sleep(300)
+exit(pytest_result)

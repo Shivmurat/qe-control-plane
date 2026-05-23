@@ -1,4 +1,7 @@
 import subprocess
+import os
+
+namespace = os.getenv("NAMESPACE","default")
 
 subprocess.run(
     [
@@ -15,7 +18,9 @@ subprocess.run(
         "kubectl",
         "apply",
         "-f",
-        "k8s/jobs/qe-job.yaml"
+        "k8s/jobs/qe-job.yaml",
+        "-n",
+        namespace
     ],
     check=True
 )

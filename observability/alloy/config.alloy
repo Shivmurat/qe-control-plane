@@ -1,0 +1,33 @@
+logging {
+
+  level  = "info"
+  format = "logfmt"
+}
+
+
+local.file_match "qe_logs" {
+
+  path_targets = [
+
+    {
+      __path__ = "/var/log/qe-control-plane/*.log",
+      job = "qe-control-plane"
+    }
+  ]
+}
+
+
+loki.source.file "qe_logs" {
+
+  targets    = local.file_match.qe_logs.targets
+  forward_to = [loki.write.default.receiver]
+}
+
+
+loki.write "default" {
+
+  endpoint {
+
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}

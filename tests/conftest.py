@@ -6,6 +6,11 @@ from framework.core.context.execution_context import ExecutionContext
 from framework.utils.config_loader import ConfigLoader
 from framework.utils.logger import LoggerManager
 
+from framework.observability.metrics import test_passed_total
+from framework.observability.metrics import test_failed_total
+from framework.observability.metrics import test_skipped_total
+from framework.observability.metrics import execution_duration_seconds
+
 pytest_plugins = [
     "framework.fixtures.reqres.reqres_fixtures"
 ]
@@ -83,3 +88,25 @@ def pytest_runtest_makereport(item, call):
     )
 
 
+def pytest_runtest_logreport(report):
+
+    if report.when != "call":
+
+        return
+
+    execution_duration_seconds.observe(report.duration)
+
+
+    if report.passed:
+
+        test_passed_total.inc()
+
+
+    elif report.failed:
+
+        test_failed_total.inc()
+
+
+    elif report.skipped:
+
+        test_skipped_total.inc()

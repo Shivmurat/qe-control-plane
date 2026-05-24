@@ -22,7 +22,7 @@ allure_results_dir = ExecutionContext.get_allure_results_dir()
 
 allure_report_dir = ExecutionContext.get_allure_report_dir()
 
-
+"""
 junit_report_path = (
     ExecutionContext.get_run_root()
     / "junit"
@@ -34,6 +34,7 @@ junit_report_path.parent.mkdir(
     parents=True,
     exist_ok=True
 )
+"""
 
 
 pytest_command = [
@@ -42,8 +43,8 @@ pytest_command = [
     "-v",
  #   "-n",
  #   str(parallel_workers),
-    f"--alluredir={allure_results_dir}",
-    f"--junitxml={junit_report_path}"
+    f"--alluredir={allure_results_dir}"
+  #  f"--junitxml={junit_report_path}"
 ]
 
 start_metrics_server()

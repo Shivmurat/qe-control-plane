@@ -140,10 +140,19 @@ pipeline {
 
     post {
 
-       /* always {
+        always {
+           sh """
+
+               cd infrastructure/terraform/environments/dev
+
+               terraform destroy \
+               -auto-approve \
+               -var="namespace=${NAMESPACE}"
+
+           """
 
            cleanWs()
-        } */
+        }
 
         success {
 

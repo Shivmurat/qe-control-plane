@@ -142,7 +142,7 @@ pipeline {
 
         always {
 
-            cleanWs()
+         //   cleanWs()
         }
 
         success {

@@ -72,5 +72,5 @@ subprocess.run(allure_command)
 
 print(f"\nAllure report generated at: {allure_report_dir}")
 
-time.sleep(300)
+#time.sleep(300) #this is for promethues grafana loki alloy reporting
 exit(pytest_result)

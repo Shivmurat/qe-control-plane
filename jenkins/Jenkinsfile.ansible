@@ -1,4 +1,4 @@
-def RUN_ID = ""
+// def RUN_ID = ""
 
 pipeline {
 
@@ -79,8 +79,8 @@ pipeline {
                     """
                     def runId = readFile(file: 'run_id.txt').trim()
                     echo "Read RUN_ID from file: ${runId}"
-                    RUN_ID = runId
-                    echo "Captured RUN_ID: ${RUN_ID}"
+                    env.RUN_ID = runId
+                    echo "Captured RUN_ID: ${env.RUN_ID}"
                 }
             }
         }
@@ -88,7 +88,7 @@ pipeline {
         stage('Archive Runtime Artifacts') {
             steps {
                 archiveArtifacts(
-                    artifacts: "artifacts/runs/${RUN_ID}/**/*",
+                    artifacts: "artifacts/runs/${env.RUN_ID}/**/*",
                     fingerprint: true
                 )
             }
@@ -99,7 +99,7 @@ pipeline {
                 allure(
                     includeProperties: false,
                     jdk: '',
-                    results: [[path: "artifacts/runs/${RUN_ID}/allure-results"]]
+                    results: [[path: "artifacts/runs/${env.RUN_ID}/allure-results"]]
                 )
             }
         }
@@ -109,9 +109,9 @@ pipeline {
 
                 steps {
 
-                     sh "ls -R artifacts/runs/${RUN_ID}/junit || true"
+                     sh "ls -R artifacts/runs/${env.RUN_ID}/junit || true"
 
-                     junit "artifacts/runs/${RUN_ID}/junit/results.xml"
+                     junit "artifacts/runs/${env.RUN_ID}/junit/results.xml"
                 }
             } */
 

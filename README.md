@@ -1,203 +1,289 @@
 # QE Control Plane
 
-Cloud-native API automation framework built using Python, Pytest, Docker, Kubernetes, and Jenkins.
+Cloud-native Quality Engineering Platform built using Python, Pytest, Docker, Kubernetes, Terraform, Ansible, Jenkins, and Observability tooling.
 
-Designed with scalable automation architecture principles including:
+Designed with scalable platform engineering and distributed automation architecture principles including:
 
-* reusable API client layer
-* centralized configuration management
-* distributed-safe execution
-* Kubernetes-based orchestration
-* CI/CD integration
-* enterprise-grade reporting and artifact management
-
----
-
-# Tech Stack
-
-* Python 3.12
-* Pytest
-* Pytest-xdist
-* Requests
-* JSON Schema Validation
-* Allure Reporting
-* Docker
-* Docker Compose
-* Kubernetes
-* Jenkins
+- reusable API automation architecture
+- distributed-safe execution
+- Kubernetes-based orchestration
+- ephemeral infrastructure provisioning
+- runtime platform validation
+- observability-first execution
+- CI/CD pipeline orchestration
+- centralized reporting and artifact management
 
 ---
 
-# Framework Features
+# Platform Architecture
 
-## API Automation Architecture
+```text
+Jenkins
+   ↓
+Terraform
+   ↓
+Ephemeral Kubernetes Namespace
+   ↓
+Ansible Platform Validation
+   ↓
+Kubernetes Job Execution
+   ↓
+Pytest Distributed Execution
+   ↓
+Artifacts + Metrics + Logs
+   ↓
+Grafana / Prometheus / Loki
+```
 
-* Reusable `BaseClient` implementation
-* Request/Response abstraction layer
-* API-specific client implementations
-* ReqRes API integration
-* Centralized request execution flow
+---
+
+# Platform Capabilities
+
+## Automation Framework
+
+Implemented scalable API automation architecture using:
+
+- reusable `BaseClient`
+- centralized request execution layer
+- API-specific client abstraction
+- request/response models
+- schema validation
+- centralized configuration handling
+- distributed-safe execution context
 
 Supported capabilities:
 
-* headers
-* query params
-* payload handling
-* retries
-* authentication
-* response validation
+- headers
+- query params
+- payload handling
+- retries
+- authentication
+- response validation
+- execution traceability
 
 ---
 
-## Authentication Layer
+## Distributed Execution Architecture
 
-Implemented centralized authentication handling with:
+Framework supports distributed-safe execution across:
 
-* `x-api-key` support
-* auth header management
-* retry-safe auth handling
-* token refresh handling support
-* `_handle_auth_failure()` implementation
-* Idempotency-Key support for safe retries
-
----
-
-## Configuration Management
-
-Environment-based configuration system using YAML files.
-
-Supported environments:
-
-* dev
-* nqa
-* future scalable environment support
-
-Centralized configuration handling for:
-
-* base URLs
-* authentication
-* status codes
-* execution configs
-* environment-specific properties
-
----
-
-## Request / Response Models
-
-Implemented reusable request and response models using Pydantic.
+- local execution
+- Docker execution
+- Kubernetes execution
+- parallel workers
 
 Features:
 
-* request validation
-* response parsing
-* type-safe models
-* optional field handling
-* reusable API contract layer
-
----
-
-## Validation Layer
-
-Implemented JSON Schema validation layer for API response verification.
-
-Features:
-
-* schema-based validation
-* centralized schema management
-* automatic validation failure handling
-* reusable schema utilities
-* response contract verification
-
----
-
-## Logging & Execution Metadata
-
-Centralized logger implementation with:
-
-* timestamped logs
-* structured logging
-* execution summaries
-* runtime metadata tracking
-* execution lifecycle visibility
-
-Generated execution artifacts:
-
-* logs
-* aggregated_results.json
-* execution_summary.json
-* junit reports
-* allure reports
+- centralized `RUN_ID` propagation
+- worker-safe artifact handling
+- execution isolation
+- distributed-safe reporting
+- scalable execution orchestration
 
 ---
 
 ## Execution Context & Traceability
 
-Implemented centralized `ExecutionContext` for runtime coordination across:
-
-* local execution
-* Docker execution
-* Kubernetes execution
-* parallel workers
-
-Features:
-
-* centralized `RUN_ID` propagation
-* correlation ID support
-* worker-safe execution tracking
-* parallel worker identification
-* runtime artifact isolation
-* distributed-safe execution coordination
+Implemented centralized `ExecutionContext` for runtime coordination.
 
 Execution metadata includes:
 
-* run_id
-* worker_id
-* execution timestamps
-* environment
-* execution summaries
-
-Supports distributed-safe traceability across parallel executions.
-
----
-
-# Parallel Execution
-
-Implemented distributed-safe execution using:
-
-* `pytest-xdist`
-* worker-safe artifact handling
-* centralized RUN_ID propagation
+- run_id
+- worker_id
+- execution timestamps
+- environment
+- execution summaries
+- correlation identifiers
 
 Supports:
 
-* parallel test execution
-* isolated artifact generation
-* distributed-safe reporting
-* scalable execution orchestration
+- distributed-safe traceability
+- isolated execution artifacts
+- scalable parallel execution coordination
 
 ---
 
-# Reporting
+# Tech Stack
 
-Integrated:
+## Core Automation
 
-* Allure Reporting
-* JUnit XML Reporting
+- Python 3.12+
+- Pytest
+- Pytest-xdist
+- Requests
+- Pydantic
+- JSON Schema Validation
 
-Generated artifacts:
+---
 
-```text id="a2f7vx"
+## Containerization & Orchestration
+
+- Docker
+- Docker Compose
+- Kubernetes
+
+---
+
+## Infrastructure & Configuration Management
+
+- Terraform
+- Ansible
+
+---
+
+## Observability Stack
+
+- Prometheus
+- Grafana
+- Grafana Loki
+- Grafana Alloy
+
+---
+
+## CI/CD & Reporting
+
+- Jenkins
+- Allure Reporting
+- JUnit Reporting
+
+---
+
+# Execution Modes
+
+| Mode | Description |
+|---|---|
+| Local | Direct Pytest execution |
+| Docker | Containerized execution |
+| Docker Compose | Multi-container orchestration |
+| Kubernetes | Distributed Job-based execution |
+| Terraform | Ephemeral infrastructure provisioning |
+| Ansible | Runtime platform validation |
+
+---
+
+# Progressive Jenkins Pipelines
+
+Implemented progressive CI/CD maturity pipelines:
+
+| Pipeline | Purpose |
+|---|---|
+| `Jenkinsfile.local` | Local automation execution |
+| `Jenkinsfile.docker` | Containerized execution |
+| `Jenkinsfile.compose` | Observability orchestration |
+| `Jenkinsfile.k8s` | Kubernetes execution |
+| `Jenkinsfile.terraform` | Ephemeral infrastructure provisioning |
+| `Jenkinsfile.ansible` | Platform validation orchestration |
+
+Pipeline evolution flow:
+
+```text
+Local
+   ↓
+Docker
+   ↓
+Docker Compose
+   ↓
+Kubernetes
+   ↓
+Terraform
+   ↓
+Ansible
+```
+
+---
+
+# Configuration Management
+
+Environment-based configuration system using YAML files.
+
+Supported environments:
+
+- dev
+- nqa
+- future scalable environment support
+
+Centralized configuration handling for:
+
+- base URLs
+- authentication
+- status codes
+- execution configs
+- runtime settings
+- environment-specific properties
+
+---
+
+# Authentication Layer
+
+Implemented centralized authentication handling with:
+
+- `x-api-key` support
+- auth header management
+- retry-safe auth handling
+- token refresh handling support
+- `_handle_auth_failure()` implementation
+- Idempotency-Key support
+
+---
+
+# Validation Layer
+
+Implemented reusable JSON Schema validation layer.
+
+Features:
+
+- schema-based validation
+- centralized schema management
+- automatic validation failure handling
+- reusable schema utilities
+- response contract verification
+
+---
+
+# Logging & Reporting
+
+Centralized logging implementation with:
+
+- structured logging
+- timestamped logs
+- execution summaries
+- runtime metadata tracking
+- execution lifecycle visibility
+
+Generated execution artifacts:
+
+```text
 artifacts/runs/<run_id>/
 ```
 
 Contains:
 
-* allure-report
-* allure-results
-* logs
-* junit reports
-* execution summaries
-* aggregated execution results
+- allure-report
+- allure-results
+- logs
+- junit reports
+- execution summaries
+- aggregated execution results
+
+---
+
+# Observability Platform
+
+Integrated observability stack using:
+
+- Prometheus metrics collection
+- Grafana dashboards
+- Loki centralized logging
+- Alloy telemetry pipeline
+
+Supported observability capabilities:
+
+- execution metrics
+- runtime telemetry
+- centralized logs
+- distributed execution visibility
+- platform monitoring
+- execution traceability
 
 ---
 
@@ -207,21 +293,21 @@ Framework supports containerized execution using Docker.
 
 Features:
 
-* custom execution image
-* Allure CLI integration
-* isolated execution environment
-* mounted artifact persistence
-* reproducible execution setup
+- custom execution image
+- isolated runtime environment
+- reproducible execution setup
+- artifact persistence
+- Allure integration
 
 Build:
 
-```bash id="t9m4hz"
+```bash
 docker build -t qe-control-plane -f docker/Dockerfile .
 ```
 
 Run:
 
-```bash id="y5q8lc"
+```bash
 docker run --rm qe-control-plane
 ```
 
@@ -233,16 +319,15 @@ Declarative local orchestration using Docker Compose.
 
 Supports:
 
-* container orchestration
-* environment management
-* volume management
-* reusable execution configuration
-* simplified local execution
+- multi-container orchestration
+- observability stack deployment
+- reusable execution configuration
+- simplified local execution
 
 Run:
 
-```bash id="g2w7pk"
-docker compose up
+```bash
+docker compose up -d
 ```
 
 ---
@@ -251,18 +336,19 @@ docker compose up
 
 Framework supports Kubernetes Job-based execution.
 
-Implemented:
+Implemented capabilities:
 
-* Kubernetes Job manifests
-* containerized execution
-* artifact extraction
-* pod log inspection
-* orchestration automation
-* distributed execution support
+- Kubernetes Job manifests
+- containerized execution
+- artifact extraction
+- pod log inspection
+- namespace isolation
+- distributed execution support
+- runtime orchestration
 
 Execution flow:
 
-```text id="k4m1vz"
+```text
 Kubernetes Job
     ↓
 Pytest Execution
@@ -272,40 +358,78 @@ Artifact Generation
 Artifact Extraction
 ```
 
-Kubernetes capabilities:
+---
 
-* Job-based execution
-* parallel execution support
-* pod log inspection
-* runtime orchestration
-* containerized workload management
+# Terraform Integration
+
+Implemented Infrastructure-as-Code orchestration using Terraform.
+
+Supports:
+
+- ephemeral namespace provisioning
+- isolated execution environments
+- runtime infrastructure lifecycle
+- scalable execution orchestration
+
+Execution lifecycle:
+
+```text
+Terraform Apply
+    ↓
+Namespace Provisioning
+    ↓
+Execution
+    ↓
+Terraform Destroy
+```
+
+---
+
+# Ansible Integration
+
+Implemented platform validation and runtime orchestration using Ansible.
+
+Supports:
+
+- Docker validation
+- Kubernetes validation
+- Terraform validation
+- namespace validation
+- runtime readiness checks
+- platform pre-flight validation
+
+Execution flow:
+
+```text
+Terraform
+    ↓
+Ansible Validation
+    ↓
+Kubernetes Execution
+```
 
 ---
 
 # Jenkins CI/CD Integration
 
-Integrated with Jenkins Pipeline.
-
-Pipeline stages:
-
-* Docker image build
-* Kubernetes execution
-* artifact collection
-* report publishing
+Integrated with Jenkins Pipeline-as-Code architecture.
 
 Supports:
 
-* pipeline-as-code
-* artifact archiving
-* JUnit publishing
-* scalable CI/CD execution
-* automated orchestration
+- SCM-driven pipelines
+- Docker image build
+- Kubernetes execution
+- Terraform orchestration
+- Ansible validation
+- artifact collection
+- Allure publishing
+- scalable CI/CD execution
 
 ---
 
 # Project Structure
 
-```text id="m8q2vc"
+```text
 framework/
 tests/
 configs/
@@ -314,6 +438,27 @@ k8s/
 jenkins/
 scripts/
 artifacts/
+
+observability/
+├── grafana/
+├── prometheus/
+├── loki/
+└── alloy/
+
+infrastructure/
+├── terraform/
+│   ├── backend/
+│   ├── modules/
+│   ├── environments/
+│   └── scripts/
+│
+└── ansible/
+    ├── inventory/
+    ├── group_vars/
+    ├── host_vars/
+    ├── roles/
+    ├── playbooks/
+    └── ansible.cfg
 ```
 
 ---
@@ -322,7 +467,7 @@ artifacts/
 
 ## Local Execution
 
-```bash id="r6t1hy"
+```bash
 python -m scripts.execution.run_tests
 ```
 
@@ -330,24 +475,47 @@ python -m scripts.execution.run_tests
 
 ## Kubernetes Execution
 
-```bash id="w3m9pk"
+```bash
 python -m scripts.execution.k8s_execution
+```
+
+---
+
+## Terraform Execution
+
+```bash
+cd infrastructure/terraform/environments/dev
+
+terraform init
+
+terraform apply -auto-approve
+```
+
+---
+
+## Ansible Validation
+
+```bash
+cd infrastructure/ansible
+
+ansible-playbook playbooks/validate.yml
 ```
 
 ---
 
 # Future Enhancements
 
-* Helm deployment support
-* Prometheus metrics integration
-* Grafana dashboards
-* Slack notifications
-* Dynamic environment provisioning
-* Test impact analysis
-* Distributed execution scaling
-* Centralized artifact storage
-* GitHub Actions integration
-* Cloud-native observability support
+- Helm deployment support
+- GitOps integration
+- EKS/GKE deployment support
+- OpenTelemetry integration
+- centralized artifact storage
+- cloud-native execution scaling
+- distributed execution optimization
+- Slack / Teams notifications
+- chaos engineering support
+- test impact analysis
+- AI-assisted execution insights
 
 ---
 

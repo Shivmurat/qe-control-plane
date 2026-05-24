@@ -6,7 +6,7 @@ pipeline {
 
     environment {
         PYTHON_ENV = 'venv'
-        RUN_ID = ''
+      //  RUN_ID = ''
         NAMESPACE = "qe-run-${BUILD_NUMBER}"
     }
 

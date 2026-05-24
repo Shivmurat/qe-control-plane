@@ -1,0 +1,7 @@
+- name: Verify kubectl installation
+  command: kubectl version client
+  register: kubectl_output
+
+- name: Print kubectl Version
+  debug:
+    var: kubectl_output.stdout

@@ -1,0 +1,8 @@
+- name: Validate QE Platform
+
+  hosts: local
+
+  gather_facts: false
+
+  roles:
+    - validation

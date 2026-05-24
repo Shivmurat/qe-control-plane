@@ -1,0 +1,7 @@
+- name: Verify Docker Installation
+  command: docker --version
+  register: docker_output
+
+- name: Print docker version
+  debug:
+    var: docker_output.stdout

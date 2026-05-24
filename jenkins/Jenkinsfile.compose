@@ -1,0 +1,68 @@
+pipeline {
+
+    agent any
+
+    environment {
+
+        PYTHON_ENV = 'venv'
+    }
+
+    stages {
+
+        stage('Checkout Source Code') {
+
+            steps {
+
+                checkout scm
+            }
+        }
+
+        stage('Verify Tooling') {
+
+            steps {
+
+                sh 'docker --version'
+
+                sh 'docker compose version'
+            }
+        }
+
+        stage('Build Docker Image') {
+
+            steps {
+
+                sh 'docker build -t qe-control-plane:latest -f docker/Dockerfile .'
+            }
+        }
+
+        stage('Deploy Observability Stack') {
+
+            steps {
+
+                sh '''
+
+                cd observability
+
+                docker compose up -d
+
+                '''
+            }
+        }
+
+        stage('Execute Docker Container') {
+
+            steps {
+
+                sh '''
+
+                docker run --rm qe-control-plane:latest
+
+                '''
+            }
+        }
+    }
+
+    post {
+
+        always {
+}

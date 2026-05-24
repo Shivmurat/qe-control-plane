@@ -1,0 +1,59 @@
+pipeline {
+
+    agent any
+
+    environment {
+        PYTHON_ENV = 'venv'
+    }
+
+    stages {
+
+        stage('Checkout Source Code') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Verify Tooling') {
+            steps {
+                sh 'python3 --version'
+            }
+        }
+
+        stage('Create Virtual Environment') {
+            steps {
+                sh 'python3 -m venv ${PYTHON_ENV}'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh '. ${PYTHON_ENV}/bin/activate && pip install -r requirements.txt'
+            }
+        }
+
+        stage('Execute Automation Tests') {
+            steps {
+                sh '''
+                    . ${PYTHON_ENV}/bin/activate
+                    python -m scripts.execution.run_tests
+                '''
+            }
+        }
+    }
+
+    post {
+
+        success {
+            echo 'Local automation pipeline executed successfully'
+        }
+
+        failure {
+            echo 'Local automation pipeline execution failed'
+        }
+
+        always {
+            cleanWs()
+        }
+    }
+}

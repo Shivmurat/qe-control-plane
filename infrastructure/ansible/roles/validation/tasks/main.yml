@@ -1,0 +1,10 @@
+- name: Verify execution namespace exists
+  command: >
+    kubectl get namespace
+    {{ lookup('env', 'NAMESPACE') | default('default', true) }}
+  register: namespace_output
+
+
+- name: Print namespace validation
+  debug:
+    var: namespace_output.stdout_lines
